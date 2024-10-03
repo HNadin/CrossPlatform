@@ -1,20 +1,34 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Numerics;
+using System.Text;
+
 
 namespace Lab1
 {
+    // Custom exception for out-of-range values
+    public class InputOutOfRangeException : Exception
+    {
+        public InputOutOfRangeException(string message) : base(message) { }
+    }
+
+    // Custom exception for invalid input
+    public class InvalidInputException : Exception
+    {
+        public InvalidInputException(string message) : base(message) { }
+    }
+
     internal class Program
     {
         static void Main(string[] args)
         {
-            string inputFilePath = "Lab1/INPUT.txt";   // Путь к файлу ввода
-            string outputFilePath = "Lab1/OUTPUT.txt"; // Путь к файлу вывода
+            Console.OutputEncoding = Encoding.UTF8;
+            string inputFilePath = "Lab1/INPUT.txt";   // Path to the input file
+            string outputFilePath = "Lab1/OUTPUT.txt"; // Path to the output file
 
             try
             {
-                // Проверка существования INPUT.txt
+                // Check if INPUT.txt exists
                 if (!File.Exists(inputFilePath))
                 {
                     throw new FileNotFoundException($"File error: '{inputFilePath}' not found.");
@@ -22,10 +36,10 @@ namespace Lab1
 
                 string[] inputs;
 
-                // Попытка чтения файла и обработка потенциальных ошибок
+                // Attempt to read the file and handle potential errors
                 try
                 {
-                    inputs = File.ReadAllLines(inputFilePath);
+                    inputs = File.ReadAllLines(inputFilePath, Encoding.UTF8); // Change to Encoding.GetEncoding(1251) if necessary
                 }
                 catch (UnauthorizedAccessException ex)
                 {
@@ -37,45 +51,55 @@ namespace Lab1
                 }
                 catch (IOException ex)
                 {
-                    throw new IOException($"File error: Unable to read file '{inputFilePath}'.", ex);
+                    throw new IOException($"File error: Unable to read the file '{inputFilePath}'.", ex);
                 }
 
-                // Проверка, что файл не пустой
+                // Check if the file is not empty
                 if (inputs.Length == 0)
                 {
                     throw new FormatException("File is empty.");
                 }
 
-                // Запись результатов в OUTPUT.txt
+                // Write the results to OUTPUT.txt
                 using (StreamWriter writer = new StreamWriter(outputFilePath))
                 {
-                    foreach (string input in inputs)
+                    for (int lineNumber = 0; lineNumber < inputs.Length; lineNumber++)
                     {
+                        string input = inputs[lineNumber];
                         if (int.TryParse(input.Trim(), out int n))
                         {
-                            // Проверка, что n в допустимом диапазоне
+                            // Check if n is within the allowed range
                             if (n < 2 || n >= 32)
                             {
-                                writer.WriteLine($"Input {n} is out of range.");
-                                continue;
+                                // Throw an exception for out-of-range values with line number
+                                throw new InputOutOfRangeException($"Input {n} is out of range. Error at line {lineNumber + 1}.");
                             }
 
                             BigInteger sum = 0;
 
-                            // Подсчет различных салатов
+                            // Calculate the different combinations
                             for (int i = 2; i <= n; i++)
                             {
                                 sum += Combinations(n, i);
                             }
 
-                            writer.WriteLine(sum); // Запись суммы в выходной файл
+                            writer.WriteLine(sum); // Write the sum to the output file
                         }
                         else
                         {
-                            writer.WriteLine($"Input '{input}' is not a valid integer."); // Сообщение об ошибке
+                            // Throw an exception for invalid input with line number
+                            throw new InvalidInputException($"Input '{input}' is not a valid integer. Error at line {lineNumber + 1}.");
                         }
                     }
                 }
+            }
+            catch (InputOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (InvalidInputException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
             catch (Exception ex)
             {
@@ -83,7 +107,7 @@ namespace Lab1
             }
         }
 
-        // Функция для вычисления факториала
+        // Function to calculate the factorial
         static BigInteger Factorial(int n)
         {
             BigInteger f = 1;
@@ -92,7 +116,7 @@ namespace Lab1
             return f;
         }
 
-        // Функция для вычисления комбинаций C(n, r) = n! / (r! * (n-r)!)
+        // Function to calculate combinations C(n, r) = n! / (r! * (n-r)!)
         static BigInteger Combinations(int n, int r)
         {
             return Factorial(n) / (Factorial(r) * Factorial(n - r));

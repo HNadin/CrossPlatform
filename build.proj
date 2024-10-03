@@ -1,12 +1,33 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!-- Property group for common paths -->
+	<PropertyGroup>
+		<ProjectsPath>Lab1;Lab2;Lab3</ProjectsPath>
+		<TestSuffix>Tests</TestSuffix>
+		<BuildSuffix>Build</BuildSuffix>
+		<RunSuffix>Run</RunSuffix>
+	</PropertyGroup>
+
+	<!-- Target for running tests -->
 	<Target Name="RunTests">
-		<Exec Command="dotnet test Lab1/Lab1.xUnitTests/Lab1.Tests.csproj" />
+		<Message Importance="high" Text="Running tests..." />
+		<ItemGroup>
+			<TestProjects Include="$(ProjectsPath)\*.$(TestSuffix)\*.csproj" />
+		</ItemGroup>
+		<Exec Command="dotnet test @(TestProjects)" />
 	</Target>
 
+	<!-- Target for building and running projects -->
 	<Target Name="BuildAndRun">
-		<Exec Command="dotnet build Lab1/Lab1/Lab1.csproj" />
-		<Exec Command="dotnet run --project Lab1/Lab1/Lab1.csproj" />
+		<Message Importance="high" Text="Building and running projects..." />
+		<ItemGroup>
+			<Projects Include="$(ProjectsPath)\*.$(BuildSuffix)\*.csproj" />
+		</ItemGroup>
+		<Target Name="BuildProject" DependsOnTargets="BuildAndRun">
+			<Exec Command="dotnet build %(Projects.Identity)" />
+			<Exec Command="dotnet run --project %(Projects.Identity)" />
+		</Target>
 	</Target>
 
+	<!-- Target for all operations -->
 	<Target Name="All" DependsOnTargets="RunTests;BuildAndRun" />
 </Project>

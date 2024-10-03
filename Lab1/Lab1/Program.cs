@@ -9,8 +9,8 @@ namespace Lab1
     {
         static void Main(string[] args)
         {
-            string inputFilePath = "INPUT.txt";   // Путь к файлу ввода
-            string outputFilePath = "OUTPUT.txt"; // Путь к файлу вывода
+            string inputFilePath = "Lab1/INPUT.txt";   // Путь к файлу ввода
+            string outputFilePath = "Lab1/OUTPUT.txt"; // Путь к файлу вывода
 
             try
             {

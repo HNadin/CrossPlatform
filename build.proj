@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="RunTests">
+		<Exec Command="dotnet test Lab1/Lab1.xUnitTests/Lab1.Tests.csproj" />
+	</Target>
+
+	<Target Name="BuildAndRun">
+		<Exec Command="dotnet build Lab1/Lab1/Lab1.csproj" />
+		<Exec Command="dotnet run --project Lab1/Lab1/Lab1.csproj" />
+	</Target>
+
+	<Target Name="All" DependsOnTargets="RunTests;BuildAndRun" />
+</Project>

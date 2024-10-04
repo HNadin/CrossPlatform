@@ -28,6 +28,6 @@
 		</Target>
 	</Target>
 
-	<!-- Target for all operations -->
-	<Target Name="All" DependsOnTargets="RunTests;BuildAndRun" />
+	<!-- Target for all operations --><!--
+	<Target Name="All" DependsOnTargets="RunTests;BuildAndRun" />-->
 </Project>

@@ -3,7 +3,6 @@ using System.IO;
 using System.Numerics;
 using System.Text;
 
-
 namespace Lab1
 {
     // Custom exception for out-of-range values
@@ -18,9 +17,10 @@ namespace Lab1
         public InvalidInputException(string message) : base(message) { }
     }
 
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        // Main entry point
+        static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
             string inputFilePath = "Lab1/INPUT.txt";   // Path to the input file
@@ -28,83 +28,72 @@ namespace Lab1
 
             try
             {
-                // Check if INPUT.txt exists
-                if (!File.Exists(inputFilePath))
-                {
-                    throw new FileNotFoundException($"File error: '{inputFilePath}' not found.");
-                }
-
-                string[] inputs;
-
-                // Attempt to read the file and handle potential errors
-                try
-                {
-                    inputs = File.ReadAllLines(inputFilePath, Encoding.UTF8); // Change to Encoding.GetEncoding(1251) if necessary
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    throw new UnauthorizedAccessException($"File error: Access to the file '{inputFilePath}' is denied.", ex);
-                }
-                catch (PathTooLongException ex)
-                {
-                    throw new PathTooLongException($"File error: The file path '{inputFilePath}' is too long.", ex);
-                }
-                catch (IOException ex)
-                {
-                    throw new IOException($"File error: Unable to read the file '{inputFilePath}'.", ex);
-                }
-
-                // Check if the file is not empty
-                if (inputs.Length == 0)
-                {
-                    throw new FormatException("File is empty.");
-                }
-
-                // Write the results to OUTPUT.txt
-                using (StreamWriter writer = new StreamWriter(outputFilePath))
-                {
-                    for (int lineNumber = 0; lineNumber < inputs.Length; lineNumber++)
-                    {
-                        string input = inputs[lineNumber];
-                        if (int.TryParse(input.Trim(), out int n))
-                        {
-                            // Check if n is within the allowed range
-                            if (n < 2 || n >= 32)
-                            {
-                                // Throw an exception for out-of-range values with line number
-                                throw new InputOutOfRangeException($"Input {n} is out of range. Error at line {lineNumber + 1}.");
-                            }
-
-                            BigInteger sum = 0;
-
-                            // Calculate the different combinations
-                            for (int i = 2; i <= n; i++)
-                            {
-                                sum += Combinations(n, i);
-                            }
-
-                            writer.WriteLine(sum); // Write the sum to the output file
-                        }
-                        else
-                        {
-                            // Throw an exception for invalid input with line number
-                            throw new InvalidInputException($"Input '{input}' is not a valid integer. Error at line {lineNumber + 1}.");
-                        }
-                    }
-                }
-            }
-            catch (InputOutOfRangeException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            catch (InvalidInputException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
+                // Reading input from file and processing it
+                string[] inputs = ReadInputFile(inputFilePath);
+                string[] results = ProcessInputs(inputs);
+                WriteOutputFile(outputFilePath, results);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
+        }
+
+        // Method to process the inputs and calculate the results
+        public static string[] ProcessInputs(string[] inputs)
+        {
+            if (inputs.Length == 0)
+            {
+                throw new FormatException("File is empty.");
+            }
+
+            string[] results = new string[inputs.Length];
+
+            for (int lineNumber = 0; lineNumber < inputs.Length; lineNumber++)
+            {
+                string input = inputs[lineNumber];
+                if (int.TryParse(input.Trim(), out int n))
+                {
+                    // Check if n is within the allowed range
+                    if (n < 2 || n >= 32)
+                    {
+                        throw new InputOutOfRangeException($"Input {n} is out of range. Error at line {lineNumber + 1}.");
+                    }
+
+                    BigInteger sum = 0;
+
+                    // Calculate the different combinations
+                    for (int i = 2; i <= n; i++)
+                    {
+                        sum += Combinations(n, i);
+                    }
+
+                    results[lineNumber] = sum.ToString(); // Store the sum in the results array
+                }
+                else
+                {
+                    throw new InvalidInputException($"Input '{input}' is not a valid integer. Error at line {lineNumber + 1}.");
+                }
+            }
+
+            return results; // Return the results for each line of input
+        }
+
+        // Method to read input from file
+        public static string[] ReadInputFile(string inputFilePath)
+        {
+            if (!File.Exists(inputFilePath))
+            {
+                throw new FileNotFoundException($"File error: '{inputFilePath}' not found.");
+            }
+
+            return File.ReadAllLines(inputFilePath, Encoding.UTF8);
+        }
+
+        // Method to write the results to a file
+        public static void WriteOutputFile(string outputFilePath, string[] results)
+        {
+            File.WriteAllLines(outputFilePath, results);
         }
 
         // Function to calculate the factorial

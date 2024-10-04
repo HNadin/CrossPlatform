@@ -1,13 +1,8 @@
 ﻿using System;
 using System.IO;
 
-class Program
+public class Program
 {
-    // Custom exception for out-of-range values
-    public class InputOutOfRangeException : Exception
-    {
-        public InputOutOfRangeException(string message) : base(message) { }
-    }
 
     // Custom exception for invalid input
     public class InvalidInputException : Exception
@@ -15,20 +10,23 @@ class Program
         public InvalidInputException(string message) : base(message) { }
     }
 
-    static int CountWays(int n)
+    public static int CountWays(int n)
     {
-        // Base cases
+        // Check that n is within the range [1, 2147483647]
+        if (n < 1 || n > 2147483647)
+        {
+            throw new ArgumentOutOfRangeException(nameof(n), "Input must be between 1 and 2147483647.");
+        }
+
         if (n < 3)
             return 0;
         if (n == 3)
             return 1;
 
-        // Initial values of coefficients
         int i = 1, j = 0;
 
         while (n > 3)
         {
-            // If n is even
             if (n % 2 == 0)
             {
                 i = 2 * i + j;
@@ -37,14 +35,12 @@ class Program
             {
                 j = i + 2 * j;
             }
-
-            // Move to the smaller value
             n /= 2;
         }
 
-        // Return the result based on the parity of the final value
         return n == 3 ? i : j;
     }
+
 
     static void Main(string[] args)
     {
@@ -90,12 +86,6 @@ class Program
             string input = inputs[lineNumber];
             if (int.TryParse(input.Trim(), out int n))
             {
-                // Check if n is within the allowed range
-                if (n < 3 || n >= 32) // You can adjust the upper limit based on your specific needs
-                {
-                    throw new InputOutOfRangeException($"Input {n} is out of range. Error at line {lineNumber + 1}.");
-                }
-
                 // Count the number of ways
                 int result = CountWays(n);
                 results[lineNumber] = result.ToString(); // Store the result

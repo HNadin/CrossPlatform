@@ -52,5 +52,5 @@ dotnet test Lab3/Lab3.Tests/Lab3.Tests.csproj   # For Lab3
 If you want to build and run all projects sequentially, you can use MSBuild. To do this, execute the following command:
 
 ```bash
-dotnet msbuild /t:BuildAndRunProjects
+dotnet msbuild /t:All
 ```

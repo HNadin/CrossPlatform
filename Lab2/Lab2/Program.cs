@@ -3,7 +3,6 @@ using System.IO;
 
 public class Program
 {
-
     // Custom exception for invalid input
     public class InvalidInputException : Exception
     {
@@ -41,17 +40,24 @@ public class Program
         return n == 3 ? i : j;
     }
 
-
     static void Main(string[] args)
     {
         // Read input data
-        string inputFilePath = "Lab2/INPUT.TXT"; // Path to the input file
-        string outputFilePath = "Lab2/OUTPUT.TXT"; // Path to the output file
+        string inputFilePath = Path.Combine("Lab2", "INPUT.txt");   // Path to the input file
+        string outputFilePath = Path.Combine("Lab2", "OUTPUT.txt"); // Path to the output file
 
         try
         {
             string[] lines = ReadInputFile(inputFilePath); // Read input data
-            WriteOutputFile(outputFilePath, ProcessInputs(lines)); // Process inputs and write to output
+            string[] results = ProcessInputs(lines); // Process inputs
+            WriteOutputFile(outputFilePath, results); // Write results to output
+
+            // Display success message in console
+            Console.WriteLine($"Results successfully written to '{outputFilePath}':");
+            foreach (var result in results)
+            {
+                Console.WriteLine(result); // Output each result
+            }
         }
         catch (Exception ex)
         {

@@ -32,6 +32,13 @@ namespace Lab1
                 string[] inputs = ReadInputFile(inputFilePath);
                 string[] results = ProcessInputs(inputs);
                 WriteOutputFile(outputFilePath, results);
+
+                // Display success message in console
+                Console.WriteLine($"Results successfully written to '{outputFilePath}':");
+                foreach (var result in results)
+                {
+                    Console.WriteLine(result); // Output each result
+                }
             }
             catch (Exception ex)
             {

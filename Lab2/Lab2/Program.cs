@@ -43,8 +43,8 @@ public class Program
     static void Main(string[] args)
     {
         // Read input data
-        string inputFilePath = "Lab2/INPUT.TXT"; // Path to the input file
-        string outputFilePath = "Lab2/OUTPUT.TXT"; // Path to the output file
+        string inputFilePath = Path.Combine("Lab2", "INPUT.txt");   // Path to the input file
+        string outputFilePath = Path.Combine("Lab2", "OUTPUT.txt"); // Path to the output file
 
         try
         {

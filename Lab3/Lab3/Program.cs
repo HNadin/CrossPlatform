@@ -6,8 +6,8 @@ public class Program
 {
     static void Main()
     {
-        string inputFilePath = "Lab3/INPUT.txt";
-        string outputFilePath = "Lab3/OUTPUT.txt";
+        string inputFilePath = Path.Combine("Lab3", "INPUT.txt");   // Path to the input file
+        string outputFilePath = Path.Combine("Lab3", "OUTPUT.txt"); // Path to the output file
 
         try
         {

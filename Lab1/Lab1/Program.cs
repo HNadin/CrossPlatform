@@ -23,8 +23,8 @@ namespace Lab1
         static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
-            string inputFilePath = "Lab1/INPUT.txt";   // Path to the input file
-            string outputFilePath = "Lab1/OUTPUT.txt"; // Path to the output file
+            string inputFilePath = Path.Combine("Lab1", "INPUT.txt");   // Path to the input file
+            string outputFilePath = Path.Combine("Lab1", "OUTPUT.txt"); // Path to the output file
 
             try
             {

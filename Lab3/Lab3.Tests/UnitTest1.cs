@@ -4,10 +4,29 @@ using Xunit;
 
 public class ProgramTests
 {
+    private string RunTest(string[] inputLines)
+    {
+        // Write a temporary file with input data
+        string tempInputFilePath = Path.GetTempFileName();
+        File.WriteAllLines(tempInputFilePath, inputLines);
+
+        // Read data from the temporary file
+        (int[,] adjacencyMatrix, int start, int end) = Program.ReadInput(tempInputFilePath);
+
+        // Process the graph to find the shortest path
+        int result = Program.FindShortestPath(adjacencyMatrix, start, end);
+
+        // Delete the temporary file
+        File.Delete(tempInputFilePath);
+
+        // Return the result as a string
+        return result.ToString(); // Convert the integer result to a string
+    }
+
     [Fact]
     public void Test_SuccessfulPath()
     {
-        // Using a string array for input
+        // Using a string array for input data
         string[] input = {
             "3",
             "0 1 0",
@@ -16,29 +35,16 @@ public class ProgramTests
             "1 3"
         };
 
-        string directoryPath = "Lab3";
-        string inputFilePath = Path.Combine(directoryPath, "INPUT.txt");
+        // Act: Run the test
+        string result = RunTest(input);
 
-        // Ensure the directory exists
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        // Write input data to the file
-        File.WriteAllLines(inputFilePath, input);
-
-        // Read data from the file and find the shortest path
-        (int[,] adjacencyMatrix, int start, int end) = Program.ReadInput(inputFilePath);
-        int result = Program.FindShortestPath(adjacencyMatrix, start, end);
-
-        Assert.Equal(2, result);  // Expect the shortest path to equal 2
+        Assert.Equal("2", result);  // Expect the shortest path to equal "2" as a string
     }
 
     [Fact]
     public void Test_NoPath()
     {
-        // Using a string array for input
+        // Using a string array for input data
         string[] input = {
             "3",
             "0 0 0",
@@ -47,29 +53,16 @@ public class ProgramTests
             "1 3"
         };
 
-        string directoryPath = "Lab3";
-        string inputFilePath = Path.Combine(directoryPath, "INPUT.txt");
+        // Act: Run the test
+        string result = RunTest(input);
 
-        // Ensure the directory exists
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        // Write input data to the file
-        File.WriteAllLines(inputFilePath, input);
-
-        // Read data from the file and find the shortest path
-        (int[,] adjacencyMatrix, int start, int end) = Program.ReadInput(inputFilePath);
-        int result = Program.FindShortestPath(adjacencyMatrix, start, end);
-
-        Assert.Equal(-1, result);  // Expect no path (-1)
+        Assert.Equal("-1", result);  // Expect no path (-1) as a string
     }
 
     [Fact]
     public void Test_StartEqualsEnd()
     {
-        // Using a string array for input
+        // Using a string array for input data
         string[] input = {
             "3",
             "0 1 0",
@@ -78,29 +71,16 @@ public class ProgramTests
             "2 2"
         };
 
-        string directoryPath = "Lab3";
-        string inputFilePath = Path.Combine(directoryPath, "INPUT.txt");
+        // Act: Run the test
+        string result = RunTest(input);
 
-        // Ensure the directory exists
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        // Write input data to the file
-        File.WriteAllLines(inputFilePath, input);
-
-        // Read data from the file and find the shortest path
-        (int[,] adjacencyMatrix, int start, int end) = Program.ReadInput(inputFilePath);
-        int result = Program.FindShortestPath(adjacencyMatrix, start, end);
-
-        Assert.Equal(0, result);  // Expect the distance to itself to equal 0
+        Assert.Equal("0", result);  // Expect the distance to itself to equal "0" as a string
     }
 
     [Fact]
     public void Test_InvalidVertexCount()
     {
-        // Using a string array for input
+        // Using a string array for input data
         string[] input = {
             "abc",  // Invalid number of vertices
             "0 1",
@@ -108,22 +88,10 @@ public class ProgramTests
             "1 2"
         };
 
-        string directoryPath = "Lab3"; // Ensure the path to the directory is correct
-        string inputFilePath = Path.Combine(directoryPath, "INPUT.txt");
+        // Act: Run the test and capture the exception
+        var exception = Assert.Throws<FormatException>(() => RunTest(input));
 
-        // Ensure the directory exists
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        // Write input data to the file
-        File.WriteAllLines(inputFilePath, input);
-
-        // Ensure an exception is thrown when reading the input file
-        var exception = Assert.Throws<FormatException>(() => Program.ReadInput(inputFilePath));
-
-        // Optionally check the exception message if necessary
+        // Check the exception message if necessary
         Assert.Contains("Invalid number of vertices", exception.Message);
     }
 

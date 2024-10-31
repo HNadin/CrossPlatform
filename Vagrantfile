@@ -1,5 +1,6 @@
 Vagrant.configure("2") do |config|
 
+
   # Linux VM
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/jammy64"
@@ -23,8 +24,16 @@ Vagrant.configure("2") do |config|
       sudo apt-get update
       sudo apt-get install -y dotnet-sdk-8.0
 
+      dotnet nuget remove source BaGet
+
+      # Configure NuGet source for private BaGet repository
+      dotnet nuget add source "http://192.168.0.101:5000/v3/index.json" --name "BaGet"
+
+      # Install NChaban tool
+      dotnet tool install --global NChaban --version 1.0.0
+
       # Check the installation
-      dotnet --version
+      NChaban --version
     SHELL
 
     # Synced folder for Linux VM
@@ -49,42 +58,21 @@ Vagrant.configure("2") do |config|
       # Install .NET SDK 8.0 using Chocolatey
       choco install dotnet-8.0-sdk -y
 
+      # Configure NuGet source for private BaGet repository
+      dotnet nuget add source http://192.168.0.101:5000/v3/index.json --name "BaGet"
+
+      # Install NChaban tool
+      dotnet tool install --global NChaban --version 1.0.0
+
       # Check the installation
-      & "C:\\ProgramData\\chocolatey\\bin\\dotnet.exe" --version
+      NChaban --version
     SHELL
 
     # Synced folder for Windows VM
     windows.vm.synced_folder ".", "C:/project"
   end
 
-  # macOS VM (Catalina)
-  # config.vm.define "mac" do |mac|
-  #   mac.vm.box = "ramsey/macos-catalina"
-  #   mac.vm.network "public_network"
-  #   mac.vm.provider "virtualbox" do |vb|
-  #     vb.memory = "8192"
-  #     vb.cpus = 4
-  #   end
-
-  #   # Provisioning for .NET SDK on macOS
-  #   mac.vm.provision "shell", inline: <<-SHELL
-  #     # Install Homebrew (if not installed)
-  #     if ! command -v brew &> /dev/null; then
-  #       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  #     fi
-
-  #     # Install .NET SDK 8.0 using Homebrew
-  #     brew install --cask dotnet-sdk
-
-  #     # Check the installation
-  #     dotnet --version
-  #   SHELL
-
-  #   # Synced folder for macOS VM
-  #   mac.vm.synced_folder ".", "/Users/vagrant/project"
-  # end
-
-# macOS VM
+  # macOS VM (Sierra)
   config.vm.define "macos" do |macos|
     macos.vm.box = "jhcook/macos-sierra"
     macos.vm.network "public_network"
@@ -93,23 +81,24 @@ Vagrant.configure("2") do |config|
       vb.cpus = 4
     end
 
-    # Provisioning for .NET Core SDK 2.2 on macOS
+    # Provisioning for .NET Core SDK on macOS
     macos.vm.provision "shell", inline: <<-SHELL
       # Install Homebrew (if not installed)
       if ! command -v brew &> /dev/null; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       fi
 
-      # Install .NET Core SDK 2.2 using Homebrew
-      brew tap isen-ng/dotnet-sdk-versions
-      brew install --cask dotnet-sdk@2.2.207
+      # Install .NET Core SDK 8.0 using Homebrew
+      brew install --cask dotnet-sdk
 
-      # Set environment variables
-      export DOTNET_ROOT=$(brew --prefix)/share/dotnet
-      export PATH="$DOTNET_ROOT:$PATH"
+      # Configure NuGet source for private BaGet repository
+      dotnet nuget add source "http://localhost:5000/v3/index.json" --name "BaGet"
+
+      # Install NChaban tool
+      dotnet tool install --global NChaban --add-source "http://localhost:5000/v3/index.json"
 
       # Check the installation
-      dotnet --version
+      NChaban --version
     SHELL
 
     # Synced folder for macOS VM

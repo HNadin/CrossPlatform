@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Lab4
 {
@@ -8,6 +9,7 @@ namespace Lab4
         {
             // Копіювання вхідного файлу до заданого шляху
             string inputDestinationPath = $"../../{lab}/INPUT.txt";
+            Console.WriteLine($"Input file copied to {inputDestinationPath}");
             File.Copy(inputFilePath, inputDestinationPath, overwrite: true);
 
             // Виконання команди Run для відповідної лабораторної роботи
@@ -22,7 +24,7 @@ namespace Lab4
             // Виконання команди Run
             Console.WriteLine($"Run {lab}");
             string runCommand = $"dotnet build ../../Build.proj -p:Solution={lab} -t:Run";
-            ExecuteCommand(runCommand);
+            RunCommand(runCommand);
 
             // Копіювання вихідного файлу з заданого шляху
             string outputSourcePath = $"../../{lab}/OUTPUT.txt";
@@ -50,7 +52,7 @@ namespace Lab4
             // Виконання команди Build для відповідної лабораторної роботи
             Console.WriteLine($"Build {lab}");
             string buildCommand = $"dotnet build ../../Build.proj -p:Solution={lab} -t:Build";
-            ExecuteCommand(buildCommand);
+            RunCommand(buildCommand);
         }
 
         public static void TestLab(string lab)
@@ -58,31 +60,45 @@ namespace Lab4
             // Виконання команди Test для відповідної лабораторної роботи
             Console.WriteLine($"Test {lab}");
             string testCommand = $"dotnet build ../../Build.proj -p:Solution={lab} -t:Test";
-            ExecuteCommand(testCommand);
+            RunCommand(testCommand);
         }
 
-        private static void ExecuteCommand(string command)
+        public static void RunCommand(string command)
         {
-            // Визначення системи (Windows або Linux)
-            string shell = Environment.OSVersion.Platform == PlatformID.Win32NT ? "cmd.exe" : "/bin/bash";
-            string args = Environment.OSVersion.Platform == PlatformID.Win32NT ? "/c " + command : "-c " + command;
-
-            var processInfo = new ProcessStartInfo(shell, args)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
+                ExecuteCommand("cmd.exe", $"/c {command}");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExecuteCommand("/bin/bash", $"-c \"{command}\"");
+            }
+            else
+            {
+                Console.WriteLine("Unsupported operating system");
+            }
+        }
+
+        private static void ExecuteCommand(string shell, string arguments)
+        {
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = shell,
+                Arguments = arguments,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
 
-            using (var process = new Process { StartInfo = processInfo })
+            using (var process = Process.Start(processInfo))
             {
-                process.Start();
-                string result = process.StandardOutput.ReadToEnd();
+                string output = process.StandardOutput.ReadToEnd();
                 string error = process.StandardError.ReadToEnd();
                 process.WaitForExit();
 
-                Console.WriteLine(result);
+                Console.WriteLine(output);
+
                 if (!string.IsNullOrEmpty(error))
                 {
                     Console.WriteLine($"Error: {error}");

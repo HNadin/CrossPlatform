@@ -28,7 +28,7 @@ namespace Lab4
         private void OnExecute()
         {
             Console.WriteLine("Author: Nadiia Chaban");
-            Console.WriteLine("Version: 1.0.0");
+            Console.WriteLine("Version: 1.0.3");
         }
     }
 

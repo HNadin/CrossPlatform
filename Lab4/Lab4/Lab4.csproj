@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+		<ProjectReference Include="../../Lab1/Lab1/Lab1.csproj" />
+		<ProjectReference Include="../../Lab2/Lab2/Lab2.csproj" />
+		<ProjectReference Include="../../Lab3/Lab3/Lab3.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
 	</ItemGroup>
 
@@ -14,7 +20,7 @@
 	  <PackageId>NChaban</PackageId>
 	  <PackageOutputPath>./nupkg</PackageOutputPath>
 	  <Authors>Chaban Nadiia</Authors>
-	  <Version>1.0.0</Version>
+	  <Version>1.0.3</Version>
   </PropertyGroup>
 
 </Project>

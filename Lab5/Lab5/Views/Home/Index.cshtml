@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Вітання!";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4">👋 Ласкаво просимо до веб-застосунку!</h1>
+    <p class="lead mt-4">
+        Цей застосунок пропонує вам наступні можливості:
+    </p>
+    <div class="features-list">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <i class="fas fa-user-plus"></i> Реєстрація та авторизація для доступу до функцій.
+            </li>
+            <li class="list-group-item">
+                <i class="fas fa-tasks"></i> Виконання практичних робіт через підпрограми.
+            </li>
+            <li class="list-group-item">
+                <i class="fas fa-user-circle"></i> Перегляд профілю та оновлення особистих даних.
+            </li>
+        </ul>
+    </div>
+    <p class="mt-4">
+        <i>Для доступу до підпрограм вам потрібно <strong>увійти</strong> в систему.</i>
+    </p>
+    <a href="@Url.Action("Login", "Account")" class="btn btn-primary mt-3">
+        Увійти зараз
+    </a>
+</div>

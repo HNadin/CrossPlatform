@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Lab4
+namespace LabsLibrary
 {
     public static class LabLibrary
     {
@@ -106,4 +106,5 @@ namespace Lab4
             }
         }
     }
+
 }

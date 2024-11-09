@@ -1,29 +1,32 @@
 ﻿@model Lab5.Models.LabViewModel
 
 <div class="container mt-4">
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-header">
             <h2>Лабораторна робота № @Model.LabNumber</h2>
             <h4>Варіант @Model.Variant</h4>
         </div>
 
         <div class="card-body">
-            <!-- Опис завдання -->
-            <div class="mb-4">
+            <!-- Завдання -->
+            <section>
                 <h5>Завдання:</h5>
                 <p>@Model.Description</p>
+            </section>
 
+            <!-- Вхідні та вихідні дані -->
+            <section>
                 <h5>Вхідні дані:</h5>
                 <p>@Model.InputDescription</p>
 
                 <h5>Вихідні дані:</h5>
                 <p>@Model.OutputDescription</p>
-            </div>
+            </section>
 
             <!-- Приклади -->
-            <div class="mb-4">
+            <section>
                 <h5>Приклади:</h5>
-                <table class="table table-bordered">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>INPUT.TXT</th>
@@ -40,32 +43,30 @@
                         }
                     </tbody>
                 </table>
-            </div>
+            </section>
 
             <!-- Форма завантаження -->
-            <div class="card">
-                <div class="card-body">
-                    <h5>Перевірка розв'язку:</h5>
-                    <form id="labForm" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="inputFile" class="form-label">Вхідний файл:</label>
-                            <input type="file" class="form-control" id="inputFile" name="inputFile" required>
-                        </div>
+            <section class="mt-4">
+                <h5>Перевірка розв'язку:</h5>
+                <form id="labForm" enctype="multipart/form-data" class="form-inline">
+                    <div class="form-group mb-3">
+                        <label for="inputFile" class="form-label mr-2">Вхідний файл:</label>
+                        <input type="file" class="form-control-file" id="inputFile" name="inputFile" required>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Вміст вхідного файлу:</label>
-                            <textarea class="form-control height-limited-textarea" id="inputContent" rows="4" readonly></textarea>
-                        </div>
+                    <div class="form-group mb-3">
+                        <label for="inputContent" class="form-label">Вміст вхідного файлу:</label>
+                        <textarea class="form-control" id="inputContent" rows="4" readonly></textarea>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Результат:</label>
-                            <textarea class="form-control height-limited-textarea" id="outputContent" rows="4" readonly></textarea>
-                        </div>
+                    <div class="form-group mb-3">
+                        <label for="outputContent" class="form-label">Результат:</label>
+                        <textarea class="form-control" id="outputContent" rows="4" readonly></textarea>
+                    </div>
 
-                        <button type="submit" class="btn btn-primary">Перевірити</button>
-                    </form>
-                </div>
-            </div>
+                    <button type="submit" class="btn btn-outline-primary">Перевірити</button>
+                </form>
+            </section>
         </div>
     </div>
 </div>
@@ -73,6 +74,7 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
+            // Загружаем файл
             $('#inputFile').change(function(e) {
                 var file = e.target.files[0];
                 var reader = new FileReader();
@@ -82,14 +84,12 @@
                 reader.readAsText(file);
             });
 
+            // Обробка форми
             $('#labForm').submit(function(e) {
                 e.preventDefault();
                 var formData = new FormData();
                 formData.append('inputFile', $('#inputFile')[0].files[0]);
                 formData.append('labNumber', '@Model.LabNumber');
-                console.log('HERE I AM!!!')
-                console.log('@Url.Action("ProcessLab", "Labs")')
-                console.log('@Model.LabNumber')
                 
                 $.ajax({
                     url: '@Url.Action("ProcessLab", "Labs")',

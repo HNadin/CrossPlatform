@@ -1,7 +1,7 @@
 # CrossPlatform Labs
 Chaban Nadiia IPZ-33. Variant - 2
 
-This repository contains three labs: **Lab1**, **Lab2**, and **Lab3**, each of which includes both the main project and unit tests. Below you will find instructions on how to build, run, and test these projects.
+This repository contains three labs: **Lab1-Lab5**. Below you will find instructions on how to build, run, and test these projects.
 
 ## Table of Contents
 
@@ -37,6 +37,15 @@ dotnet build Build.proj -p:Solution=Lab2 -t:Build
 dotnet build Build.proj -p:Solution=Lab2 -t:Run   # For Lab2
 dotnet build Build.proj -p:Solution=Lab3 -t:Build 
 dotnet build Build.proj -p:Solution=Lab3 -t:Run   # For Lab3
+# For Lab4 in ubuntu
+NChaban run lab1 --input /home/vagrant/project/Lab4/Lab1/INPUT.txt --output /home/vagrant/project/Lab4/Lab1/OUTPUT.txt
+NChaban run lab2 --input /home/vagrant/project/Lab4/Lab2/INPUT.txt --output /home/vagrant/project/Lab4/Lab2/OUTPUT.txt
+NChaban run lab3 --input /home/vagrant/project/Lab4/Lab3/INPUT.txt --output /home/vagrant/project/Lab4/Lab3/OUTPUT.txt
+# For Lab4 in windows
+NChaban run lab1 --input ../Lab1/INPUT.txt --output ../Lab1/OUTPUT.txt
+NChaban run lab2 --input ../Lab2/INPUT.txt --output ../Lab2/OUTPUT.txt
+NChaban run lab3 --input ../Lab3/INPUT.txt --output ../Lab3/OUTPUT.txt
+dotnet run --urls "https://0.0.0.0:7128" # For Lab5 in ubuntu
 ```
 ## Testing
 

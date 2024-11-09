@@ -26,10 +26,20 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-white">Привіт, @User.Identity.Name!</span>
+                                <span class="nav-link">Привіт, @User.Identity.Name!</span>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Profile", "Account")" class="btn btn-outline-light btn-sm ms-2">Профіль</a>
+                            </li>
+                            <!-- Add links to subprogram pages -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Lab1", "Labs")" class="btn btn-outline-light btn-sm ms-2">Підпрограма 1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Lab2", "Labs")" class="btn btn-outline-light btn-sm ms-2">Підпрограма 2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Lab3", "Labs")" class="btn btn-outline-light btn-sm ms-2">Підпрограма 3</a>
                             </li>
                         }
                         else
@@ -51,6 +61,7 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -62,6 +73,7 @@
             &copy; 2024 - Lab5 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

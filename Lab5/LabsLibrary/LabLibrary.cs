@@ -21,9 +21,14 @@
 
     public static class Lab3Helper
     {
-        public static string FindLab3ShortestPath(int[,] adjacencyMatrix, int start, int end)
+        public static string FindLab3ShortestPath(string[] inputData)
         {
-            // Call the method from Lab3
+            // Write the contents to a temporary file
+            string tempFilePath = Path.GetTempFileName();
+            File.WriteAllLines(tempFilePath, inputData);
+
+            // Call the method that expects a file path
+            (int[,] adjacencyMatrix, int start, int end) = Lab3.Program.ReadInput(tempFilePath);
             var result = Lab3.Program.FindShortestPath(adjacencyMatrix, start, end);
             return result.ToString();
         }

@@ -1,7 +1,7 @@
 # CrossPlatform Labs
 Chaban Nadiia IPZ-33. Variant - 2
 
-This repository contains three labs: **Lab1-Lab5**. Below you will find instructions on how to build, run, and test these projects.
+This repository contains three labs: **Lab1-Lab5 and Lab13**. Below you will find instructions on how to build, run, and test these projects.
 
 ## Table of Contents
 

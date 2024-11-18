@@ -1,7 +1,10 @@
-﻿namespace Lab6.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Lab6.Models
 {
     public class RefTransactionType
     {
+        [Key]
         public string TransactionTypeCode { get; set; }
         public string TransactionTypeDescription { get; set; }
 

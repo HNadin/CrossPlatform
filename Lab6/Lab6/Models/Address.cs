@@ -1,7 +1,10 @@
-﻿namespace Lab6.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Lab6.Models
 {
     public class Address
     {
+        [Key]
         public Guid AddressId { get; set; }
         public string Line1 { get; set; }
         public string Line2 { get; set; }

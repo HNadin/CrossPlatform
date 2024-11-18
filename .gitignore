@@ -404,3 +404,6 @@ FodyWeavers.xsd
 .nuget/
 nupkg/
 baget/
+
+# Migrations
+Migrations/

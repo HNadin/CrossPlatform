@@ -14,8 +14,11 @@ namespace Lab6.Models
         public Guid CustomerId { get; set; }
         public decimal CurrentBalance { get; set; }
         public string OtherDetails { get; set; }
-        public Customer Customer { get; set; }
-        public RefAccountType RefAccountType { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
+        public string AccountTypeDescription { get; set; }
+        public string CustomerPersonalDetails { get; set; }
+
+        //public Customer Customer { get; set; }
+        //public RefAccountType RefAccountType { get; set; }
+        //public ICollection<Transaction> Transactions { get; set; }
     }
 }

@@ -25,9 +25,9 @@
                         <!-- Greeting and Profile for authenticated users -->
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
+@*                             <li class="nav-item">
                                 <span class="nav-link">Привіт, @User.Identity.Name!</span>
-                            </li>
+                            </li> *@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Profile", "Account")" class="btn btn-outline-light btn-sm ms-2">Профіль</a>
                             </li>
@@ -40,6 +40,21 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Lab3", "Labs")" class="btn btn-outline-light btn-sm ms-2">Підпрограма 3</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Addresses")" class="btn btn-outline-light btn-sm ms-2">Addresses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Customers")" class="btn btn-outline-light btn-sm ms-2">Customers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "CentralTable")" class="btn btn-outline-light btn-sm ms-2">CentralTable</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Search")" class="btn btn-outline-light btn-sm ms-2">SearchPage</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Time")" class="btn btn-outline-light btn-sm ms-2">ConvertTime</a>
                             </li>
                         }
                         else

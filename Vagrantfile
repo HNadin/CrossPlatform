@@ -137,6 +137,7 @@ Vagrant.configure("2") do |config|
     lab6.vm.box = "ubuntu/jammy64"
     lab6.vm.hostname = "lab6-vm"
     lab6.vm.network "public_network"
+    #lab6.vm.network "private_network", ip: "192.168.0.105"
     lab6.vm.provider "virtualbox" do |vb|
       vb.memory = "8192"
       vb.cpus = 4

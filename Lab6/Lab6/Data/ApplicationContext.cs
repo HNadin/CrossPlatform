@@ -73,13 +73,13 @@ namespace Lab6.Data
                 .HasForeignKey(a => a.AccountTypeCode)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Models.Transaction>()
+            modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.Account)
                 .WithMany(a => a.Transactions)
                 .HasForeignKey(t => t.AccountNumber)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Models.Transaction>()
+            modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.RefTransactionType)
                 .WithMany(tt => tt.Transactions)
                 .HasForeignKey(t => t.TransactionTypeCode)

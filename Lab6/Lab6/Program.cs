@@ -1,5 +1,8 @@
 using Lab6.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
 
 namespace Lab6
 {
@@ -15,6 +18,12 @@ namespace Lab6
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
+
 
             var databaseType = builder.Configuration["DatabaseType"];
             switch (databaseType)
@@ -36,6 +45,21 @@ namespace Lab6
                         options.UseInMemoryDatabase("InMemoryDb"));
                     break;
             }
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}";
+                    options.Audience = builder.Configuration["Auth0:Audience"];
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = $"https://{builder.Configuration["Auth0:Domain"]}",
+                        ValidateAudience = true,
+                        ValidAudience = builder.Configuration["Auth0:Audience"],
+                        ValidateLifetime = true
+                    };
+                });
 
             builder.Services.AddCors(options =>
             {

@@ -48,7 +48,7 @@ namespace Lab5.Services
             return await JsonSerializer.DeserializeAsync<Address>(responseStream);
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomersAsync(string token)
+        public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
             await SetAuthorizationHeaderAsync();
 

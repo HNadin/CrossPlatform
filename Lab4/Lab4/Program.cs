@@ -1,6 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using System.ComponentModel.DataAnnotations;
 using LabsLibrary;
+using System.Runtime.InteropServices;
 
 namespace Lab4
 {
@@ -119,14 +120,34 @@ namespace Lab4
 
         private void OnExecute()
         {
-            if (!string.IsNullOrEmpty(Path))
+            if (string.IsNullOrEmpty(Path))
             {
+                Console.WriteLine("Please specify a path.");
+                return;
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Console.WriteLine("Setting LAB_PATH environment variable for Windows.");
                 Environment.SetEnvironmentVariable("LAB_PATH", Path, EnvironmentVariableTarget.User);
-                Console.WriteLine($"LAB_PATH set to: {Path}");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Console.WriteLine("Setting LAB_PATH environment variable for Linux/OSX.");
+                string profileFile = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? "~/.zshrc" : "~/.bashrc";
+                string addToProfileCommand = $"echo 'export LAB_PATH={Path}' >> {profileFile}";
+                LabLibrary.RunCommand(addToProfileCommand);
+
+                string sourceProfileCommand = $"source {profileFile}";
+                LabLibrary.RunCommand(sourceProfileCommand);
+
+                Console.WriteLine("Verifying LAB_PATH setting in current shell.");
+                string setInShellCommand = $"export LAB_PATH={Path} && echo $LAB_PATH";
+                LabLibrary.RunCommand(setInShellCommand);
             }
             else
             {
-                Console.WriteLine("Please specify a path.");
+                Console.WriteLine("Unsupported operating system");
             }
         }
     }

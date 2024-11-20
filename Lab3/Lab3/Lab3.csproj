@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <ToolCommandName>NChaban_</ToolCommandName>
+	  <PackageId>NChaban_</PackageId>
+	  <PackageOutputPath>./nupkg</PackageOutputPath>
+	  <Authors>Chaban Nadiia</Authors>
+	  <Version>1.0.3</Version>
+	  <Description>Lab3 NuGet Package</Description>
   </PropertyGroup>
 
 </Project>

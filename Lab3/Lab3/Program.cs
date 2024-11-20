@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Lab3
 {
-    public class Program
+    public static class Program
     {
         static void Main()
         {

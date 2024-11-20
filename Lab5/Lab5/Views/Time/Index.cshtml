@@ -1,0 +1,24 @@
+﻿@model string
+
+<h1>Convert Time to Ukrainian Time</h1>
+
+<form method="post" action="/time">
+    <div class="form-group">
+        <label for="inputDate">Enter Date and Time (UTC):</label>
+        <input type="datetime-local" id="inputDate" name="inputDate" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Convert</button>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.UkrainianTime))
+{
+    <h2>Converted Time</h2>
+    <p><strong>Ukrainian Time:</strong> @ViewBag.UkrainianTime</p>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}

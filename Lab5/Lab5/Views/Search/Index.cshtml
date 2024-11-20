@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Lab6.Models.Transaction>
+
+<h1>Search Transactions</h1>
+
+<form method="get" action="/search">
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="transactionTypes">Transaction Types (comma-separated):</label>
+        <input type="text" id="transactionTypes" name="transactionTypes" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="valueStart">Value Start:</label>
+        <input type="text" id="valueStart" name="valueStart" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="valueEnd">Value End:</label>
+        <input type="text" id="valueEnd" name="valueEnd" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Search</button>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <h2>Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Account Number</th>
+                <th>Merchant ID</th>
+                <th>Transaction Type</th>
+                <th>Transaction Type Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Model)
+            {
+                <tr>
+                    <td>@transaction.AccountNumber</td>
+                    <td>@transaction.MerchantId</td>
+                    <td>@transaction.TransactionTypeCode</td>
+                    <td>@transaction.TransactionTypeDescription </td>
+                    <td>@transaction.TransactionDateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@transaction.TransactionAmount</td>
+                    <td>@transaction.OtherDetails</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No transactions found.</p>
+}

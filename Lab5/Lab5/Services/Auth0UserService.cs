@@ -83,4 +83,23 @@ public class Auth0UserService
             ProfileImage = user.Picture.ToString(),
         };
     }
+
+    public async Task<string> GetApiTokenAsync()
+    {
+        AuthenticationApiClient authClient = new(new Uri($"https://{_domain}"));
+        AccessTokenResponse authResponse = await authClient.GetTokenAsync(new ClientCredentialsTokenRequest
+        {
+            ClientId = _clientId,
+            ClientSecret = _clientSecret,
+            Audience = _audience
+        });
+
+        if (authResponse == null || string.IsNullOrEmpty(authResponse.AccessToken))
+        {
+            throw new Exception("Failed to obtain access token from Auth0.");
+        }
+
+        return authResponse.AccessToken;
+    }
+
 }

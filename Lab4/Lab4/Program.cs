@@ -66,17 +66,17 @@ namespace Lab4
 
             // Assign the input file path with a priority to InputFile
             if (string.IsNullOrEmpty(InputFile))
-                inputFilePath = Environment.GetEnvironmentVariable("LAB_PATH") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "INPUT.txt");
+                inputFilePath = Path.Combine(Environment.GetEnvironmentVariable("LAB_PATH"), "INPUT.txt") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "INPUT.txt");
             else
                 inputFilePath = InputFile;
 
-            if (!File.Exists(InputFile))
+            if (!File.Exists(inputFilePath))
             {
                 Console.WriteLine("Input file not found.");
                 return;
             }
 
-            string outputFilePath = !string.IsNullOrEmpty(OutputFile) ? OutputFile : Path.Combine(labPath, "OUTPUT.txt");
+            string outputFilePath = !string.IsNullOrEmpty(OutputFile) ? OutputFile : Path.Combine(Environment.GetEnvironmentVariable("LAB_PATH"), "OUTPUT.txt");
 
             Console.WriteLine($"Running {Lab} with input file: {inputFilePath}, output file: {outputFilePath}");
 
@@ -121,7 +121,7 @@ namespace Lab4
         {
             if (!string.IsNullOrEmpty(Path))
             {
-                Environment.SetEnvironmentVariable("LAB_PATH", Path);
+                Environment.SetEnvironmentVariable("LAB_PATH", Path, EnvironmentVariableTarget.User);
                 Console.WriteLine($"LAB_PATH set to: {Path}");
             }
             else

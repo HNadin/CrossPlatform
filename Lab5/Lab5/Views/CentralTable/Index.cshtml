@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Lab6.Models.Transaction>
+
+<h1>Transactions List</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Account Number</th>
+        <th>Merchant ID</th>
+        <th>Transaction Type Code</th>
+        <th>Transaction Date and Time</th>
+        <th>Transaction Amount</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var transaction in Model)
+    {
+        <tr>
+            <td>@transaction.AccountNumber</td>
+            <td>@transaction.MerchantId</td>
+            <td>@transaction.TransactionTypeCode</td>
+            <td>@transaction.TransactionDateTime</td>
+            <td>@transaction.TransactionAmount</td>
+            <td><a asp-action="Details" asp-route-id="@transaction.TransactionId">View Details</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

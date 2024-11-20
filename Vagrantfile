@@ -132,4 +132,34 @@ Vagrant.configure("2") do |config|
     # Synced folder for Linux VM
     lab5.vm.synced_folder ".", "/home/vagrant/project"
   end
+
+    config.vm.define "lab6" do |lab6|
+    lab6.vm.box = "ubuntu/jammy64"
+    lab6.vm.hostname = "lab6-vm"
+    lab6.vm.network "public_network"
+    #lab6.vm.network "private_network", ip: "192.168.0.105"
+    lab6.vm.provider "virtualbox" do |vb|
+      vb.memory = "8192"
+      vb.cpus = 4
+    end
+
+# Provisioning for .NET installation on Ubuntu
+    lab6.vm.provision "shell", inline: <<-SHELL
+      # Update the system
+      sudo apt-get update
+      sudo apt-get install -y wget apt-transport-https
+      # Install the Microsoft GPG key
+      wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
+      sudo dpkg -i packages-microsoft-prod.deb
+      # Install .NET SDK
+      sudo apt-get update
+      sudo apt-get install -y dotnet-sdk-8.0
+      # Check the installation
+      dotnet version
+
+    SHELL
+
+    # Synced folder for Linux VM
+    lab6.vm.synced_folder ".", "/home/vagrant/project"
+  end
 end

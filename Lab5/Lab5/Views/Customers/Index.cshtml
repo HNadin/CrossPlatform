@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Lab6.Models.Customer>
+
+<h1>Customers List</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Personal Details</th>
+        <th>Contact Details</th>
+        <th>Branch ID</th>
+        <th>Address ID</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var customer in Model)
+    {
+        <tr>
+            <td>@customer.PersonalDetails</td>
+            <td>@customer.ContactDetails</td>
+            <td>@customer.BranchId</td>
+            <td>@customer.AddressId</td>
+            <td><a asp-action="Details" asp-route-id="@customer.CustomerId">View Details</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

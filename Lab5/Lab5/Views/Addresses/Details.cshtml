@@ -1,0 +1,53 @@
+﻿@model Lab6.Models.Address
+
+<h1>Address Details</h1>
+
+<div>
+    <h4>Address</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Line 1
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Line1
+        </dd>
+        <dt class="col-sm-2">
+            Line 2
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Line2
+        </dd>
+        <dt class="col-sm-2">
+            Town/City
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TownCity
+        </dd>
+        <dt class="col-sm-2">
+            State/Province/County
+        </dt>
+        <dd class="col-sm-10">
+            @Model.StateProvinceCounty
+        </dd>
+        <dt class="col-sm-2">
+            Zip/Postcode
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ZipPostcode
+        </dd>
+        <dt class="col-sm-2">
+            Country
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Country
+        </dd>
+        <dt class="col-sm-2">
+            Other Details
+        </dt>
+        <dd class="col-sm-10">
+            @Model.OtherDetails
+        </dd>
+    </dl>
+    <a asp-action="Index">Back to List</a>
+</div>

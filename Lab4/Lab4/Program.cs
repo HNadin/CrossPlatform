@@ -133,21 +133,59 @@ namespace Lab4
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Console.WriteLine("Setting LAB_PATH environment variable for Linux/OSX.");
-                string profileFile = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? "~/.zshrc" : "~/.bashrc";
-                string addToProfileCommand = $"echo 'export LAB_PATH={Path}' >> {profileFile}";
-                LabLibrary.RunCommand(addToProfileCommand);
-
-                string sourceProfileCommand = $"source {profileFile}";
-                LabLibrary.RunCommand(sourceProfileCommand);
-
-                Console.WriteLine("Verifying LAB_PATH setting in current shell.");
-                string setInShellCommand = $"export LAB_PATH={Path} && echo $LAB_PATH";
-                LabLibrary.RunCommand(setInShellCommand);
+                SetPathForLinux();
             }
             else
             {
                 Console.WriteLine("Unsupported operating system");
+            }
+        }
+
+        private void SetPathForLinux()
+        {
+            string shellConfigFile = GetShellConfigFile();
+            if (string.IsNullOrEmpty(shellConfigFile))
+            {
+                Console.WriteLine("Could not determine the shell configuration file.");
+                return;
+            }
+
+            try
+            {
+                Console.WriteLine($"Adding LAB_PATH to {shellConfigFile}.");
+                string exportCommand = $"export LAB_PATH=\"{Path}\"";
+
+                // Append export command to shell configuration file
+                File.AppendAllText(shellConfigFile, $"{Environment.NewLine}{exportCommand}{Environment.NewLine}");
+
+                Console.WriteLine("Path successfully added. Please restart your terminal or run 'source ~/.bashrc' (or equivalent) to apply changes.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to update {shellConfigFile}: {ex.Message}");
+            }
+        }
+
+        private string GetShellConfigFile()
+        {
+            string shell = Environment.GetEnvironmentVariable("SHELL");
+            if (string.IsNullOrEmpty(shell))
+            {
+                return string.Empty;
+            }
+
+            if (shell.EndsWith("bash"))
+            {
+                return (Environment.GetEnvironmentVariable("HOME") ?? "~") + "/.bashrc";
+            }
+            else if (shell.EndsWith("zsh"))
+            {
+                return (Environment.GetEnvironmentVariable("HOME") ?? "~") + ".zshrc";
+            }
+            else
+            {
+                Console.WriteLine("Unsupported shell. Supported shells are Bash and Zsh.");
+                return string.Empty;
             }
         }
     }

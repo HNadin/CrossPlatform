@@ -1,26 +1,26 @@
-// tests/utils/authUtil.js
-
 const axios = require('axios');
 
-const authDomain = 'https://dev-rvtsgimbavkuzus5.us.auth0.com'; 
-const clientId = 'hAOfKgcT8zZtZKFkoJ9qodCjStXboWLF'; 
-const clientSecret = '-DEEjJxhHYs79r0WJFRGLGZlBWD45ZPkb_Rcb4FgiS-OgSZsH-89v4iansfuwwvY'; 
-const audience = 'https://dev-rvtsgimbavkuzus5.us.auth0.com/api/v2/';
+// Replace these constants with your actual Auth0 credentials
+const AUTH0_DOMAIN = 'https://dev-rvtsgimbavkuzus5.us.auth0.com';
+const CLIENT_ID = 'hAOfKgcT8zZtZKFkoJ9qodCjStXboWLF';
+const CLIENT_SECRET = '-DEEjJxhHYs79r0WJFRGLGZlBWD45ZPkb_Rcb4FgiS-OgSZsH-89v4iansfuwwvY';
+const AUDIENCE = 'https://dev-rvtsgimbavkuzus5.us.auth0.com/api/v2/';
+const GRANT_TYPE = 'client_credentials';
 
-async function getApiToken() {
+async function getAccessToken() {
     try {
-        const response = await axios.post(`${authDomain}/oauth/token`, {
-            client_id: clientId,
-            client_secret: clientSecret,
-            audience: audience,
-            grant_type: 'client_credentials'
+        const response = await axios.post(`${AUTH0_DOMAIN}/oauth/token`, {
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            audience: AUDIENCE,
+            grant_type: GRANT_TYPE,
         });
 
         return response.data.access_token;
     } catch (error) {
-        console.error('Error obtaining token:', error);
-        throw error;
+        console.error('Error fetching access token:', error.response ? error.response.data : error.message);
+        throw new Error('Failed to get access token');
     }
 }
 
-module.exports = getApiToken;
+module.exports = { getAccessToken };

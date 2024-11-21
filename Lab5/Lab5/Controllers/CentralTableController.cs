@@ -16,7 +16,6 @@ namespace Lab5.Controllers
         [Route("/transactions")]
         public async Task<IActionResult> Index()
         {
-            var token = Request.Cookies["AccessToken"] ?? "";
 
             var transactions = await _lab6APIService.GetTransactionsAsync();
             return View(transactions);

@@ -17,9 +17,8 @@ namespace Lab5.Controllers
         [Route("/customers")]
         public async Task<IActionResult> Index()
         {
-            var token = Request.Cookies["AccessToken"] ?? "";
 
-            var customers = await _lab6APIService.GetCustomersAsync(token);
+            var customers = await _lab6APIService.GetCustomersAsync();
             return View(customers);
         }
 

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Lab6.Models.Account>
+
+<h1>Accounts</h1>
+
+<form method="get" action="/account">
+    <div class="form-group">
+        <label for="apiVersion">API Version:</label>
+        <select id="apiVersion" name="apiVersion" class="form-control">
+            <option value="1.0">Version 1.0</option>
+            <option value="2.0">Version 2.0</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Load Accounts</button>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <h2>Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Account Number</th>
+                <th>Account Status Code</th>
+                <th>Account Type Code</th>
+                <th>Current Balance</th>    
+                @if (Model.First().GetType().GetProperty("AccountTypeDescription") != null)
+                {
+                    <th>Account Type Description</th>
+                }
+                @if (Model.First().GetType().GetProperty("CustomerPersonalDetails") != null)
+                {
+                    <th>Customer Personal Details</th>
+                }
+                <th>Other Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in Model)
+            {
+                <tr>
+                    <td>@account.AccountNumber</td>
+                    <td>@account.AccountStatusCode</td>
+                    <td>@account.AccountTypeCode</td>
+                    <td>@account.CurrentBalance</td>
+                    @if (account.GetType().GetProperty("AccountTypeDescription") != null)
+                    {
+                        <td>@account.AccountTypeDescription</td>
+                    }
+                    @if (account.GetType().GetProperty("CustomerPersonalDetails") != null)
+                    {
+                        <td>@account.CustomerPersonalDetails</td>
+                    }
+                    <td>@account.OtherDetails</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No accounts found.</p>
+}
+

@@ -48,7 +48,7 @@ namespace Lab5.Services
             return await JsonSerializer.DeserializeAsync<Address>(responseStream);
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomersAsync(string token)
+        public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
             await SetAuthorizationHeaderAsync();
 
@@ -98,6 +98,50 @@ namespace Lab5.Services
 
             var responseStream = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<Transaction>(responseStream);
+        }
+
+        public async Task<IEnumerable<Account>> GetAccountsV1Async()
+        {
+            await SetAuthorizationHeaderAsync();
+
+            var response = await _httpClient.GetAsync("api/v1/account");
+            response.EnsureSuccessStatusCode();
+
+            var responseStream = await response.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<Account>>(responseStream);
+        }
+
+        public async Task<Account> GetAccountDetailsV1Async(int id)
+        {
+            await SetAuthorizationHeaderAsync();
+
+            var response = await _httpClient.GetAsync($"api/v1/account/{id}");
+            response.EnsureSuccessStatusCode();
+
+            var responseStream = await response.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<Account>(responseStream);
+        }
+
+        public async Task<IEnumerable<Account>> GetAccountsV2Async()
+        {
+            await SetAuthorizationHeaderAsync();
+
+            var response = await _httpClient.GetAsync("api/v2/account");
+            response.EnsureSuccessStatusCode();
+
+            var responseStream = await response.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<Account>>(responseStream);
+        }
+
+        public async Task<Account> GetAccountDetailsV2Async(int id)
+        {
+            await SetAuthorizationHeaderAsync();
+
+            var response = await _httpClient.GetAsync($"api/v2/account/{id}");
+            response.EnsureSuccessStatusCode();
+
+            var responseStream = await response.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<Account>(responseStream);
         }
 
         public async Task<IEnumerable<Transaction>> SearchTransactionsAsync(DateTime? date, List<string>? transactionTypes, string? valueStart, string? valueEnd)
